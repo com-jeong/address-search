@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -19,6 +19,7 @@
           if (data.buildingName !== '' && data.apartment === 'Y') {
             address += ' (' + data.buildingName + ')';
           }
+
 
           // Make Webhook으로 rowId + address 전송
           fetch("https://hook.us1.make.com/6vwga42ofzkoln2aaxlggjwvhfz1j6cp", {
