@@ -7,16 +7,16 @@
 </head>
 <body>
   <script>
-    // ✅ URL에서 rowId 추출
+    // ✅ rowId 추출
     const params = new URLSearchParams(window.location.search);
-    const rowId = params.get("rowId");  // row-Vxxxx...
+    const rowId = params.get("rowId");
 
     function execDaumPostcode() {
       new daum.Postcode({
         oncomplete: function(data) {
           const address = data.roadAddress;
 
-          // ✅ Webhook에 rowId와 address 함께 전송
+          // ✅ rowId와 address 전송
           fetch("https://hook.us1.make.com/6vwga42ofzkoln2aaxlggjwvhfz1j6cp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
