@@ -7,20 +7,21 @@
 </head>
 <body>
   <script>
-    // URL 쿼리에서 사용자 이름 추출
+    // URL에서 rowId 추출
     const params = new URLSearchParams(window.location.search);
-    const name = params.get("name"); // ex: 홍길동
+    const rowId = params.get("rowId");  // 예: row-VtB2zGF5SD
 
     function execDaumPostcode() {
       new daum.Postcode({
         oncomplete: function(data) {
           const address = data.roadAddress;
-          // Make Webhook으로 주소 + 이름 전송
+
+          // Make Webhook으로 주소 + rowId 전송
           fetch("https://hook.us1.make.com/6vwga42ofzkoln2aaxlggjwvhfz1j6cp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              name: name,
+              rowId: rowId,
               address: address
             })
           }).then(() => window.close());
