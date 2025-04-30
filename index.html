@@ -7,16 +7,20 @@
 </head>
 <body>
   <script>
-    // ✅ rowId 추출
+    // URL에서 rowId 추출
     const params = new URLSearchParams(window.location.search);
     const rowId = params.get("rowId");
 
     function execDaumPostcode() {
       new daum.Postcode({
         oncomplete: function(data) {
-          const address = data.roadAddress;
+          // 도로명 주소 + 건물명 (예: "오공로 100 (호반 베르디움더클래스 2)")
+          let address = data.roadAddress;
+          if (data.buildingName !== '' && data.apartment === 'Y') {
+            address += ' (' + data.buildingName + ')';
+          }
 
-          // ✅ rowId와 address 전송
+          // Make Webhook으로 rowId + address 전송
           fetch("https://hook.us1.make.com/6vwga42ofzkoln2aaxlggjwvhfz1j6cp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
