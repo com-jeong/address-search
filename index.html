@@ -7,26 +7,28 @@
 </head>
 <body>
   <script>
-    // URL에서 rowId 추출
+    // URL 파라미터 추출
     const params = new URLSearchParams(window.location.search);
-    const rowId = params.get("rowId");
+    const table = params.get("table");
+    const linkedRelation = params.get("linkedRelation");
 
     function execDaumPostcode() {
       new daum.Postcode({
         oncomplete: function(data) {
-          // ✅ 도로명 주소 + 건물명 포함
+          // 도로명 주소 + 건물명
           let address = data.roadAddress;
           if (data.buildingName !== '' && data.apartment === 'Y') {
             address += ' (' + data.buildingName + ')';
           }
 
-          // ✅ Make Webhook으로 전송
+          // Make Webhook으로 전송 (rowId 제거됨)
           fetch("https://hook.us1.make.com/6vwga42ofzkoln2aaxlggjwvhfz1j6cp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              rowId: rowId,
-              address: address
+              address: address,
+              table: table,
+              linkedRelation: linkedRelation
             })
           }).then(() => window.close());
         }
